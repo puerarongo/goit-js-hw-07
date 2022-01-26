@@ -35,12 +35,25 @@ function selectPicture(event) {
 
     if (event.target.nodeName === "IMG") {
         const instance = basicLightbox.create(`
-    <img src="${event.target.dataset.source}" width="800" height="600">
-`)
+    <img src="${event.target.dataset.source}">
+`);
 
-instance.show()
-        return console.log("active")
-    }
+        instance.show();
+        let condition = "active";
+
+        if (condition === "active") {
+            galleryEl.addEventListener("keydown", (event) => { 
+                if (event.key === "Escape") {
+                    instance.close();
+                    condition = "deactive";
+                }
+            });
+        };
+    }; 
+
+    
+    
+
 }
 
 
