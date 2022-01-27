@@ -5,26 +5,25 @@ const galleryEl = document.querySelector(".gallery")
 
 // todo Stage 1
 
-galleryItems.forEach(elem => {
-    // * Stage 1.1
-    const itemEl = document.createElement("div");
-    itemEl.classList.add("gallery__item");
-    galleryEl.append(itemEl);
+// * Stage 1.1
 
-    // * Stage 1.2
-    const galleryLinkEl = document.createElement("a");
-    galleryLinkEl.classList.add("gallery__link");
-    galleryLinkEl.setAttribute("href", `${elem.original}`);
-    itemEl.append(galleryLinkEl);
+const galleryInnerEl = galleryItems.map(({ preview, original, descript }) => {
+    return `<div class="gallery__item">
+  <a class="gallery__link" href=${original}">
+    <img
+      class="gallery__image"
+      src="${preview}"
+      data-source="${original}"
+      alt="${descript}"
+    />
+  </a>
+</div>`
+    
+}).join("");
 
-    // * Stage 1.3
-    const imageEl = document.createElement("img");
-    imageEl.classList.add("gallery__image");
-    imageEl.setAttribute("src", `${elem.preview}`);
-    imageEl.setAttribute("data-source", `${elem.original}`)
-    imageEl.setAttribute("alt", `${elem.description}`);
-    galleryLinkEl.append(imageEl);
-});
+// * Stage 1.2
+
+galleryEl.insertAdjacentHTML("beforeend", galleryInnerEl);
 
 // todo Stage 2
 
@@ -33,28 +32,17 @@ galleryEl.addEventListener("click", selectPicture);
 function selectPicture(event) {
     event.preventDefault();
 
+    basicLightbox
+
     if (event.target.nodeName === "IMG") {
         const instance = basicLightbox.create(`
     <img src="${event.target.dataset.source}">
-`);
-
-        instance.show();
-        let condition = "active";
-
-        if (condition === "active") {
-            galleryEl.addEventListener("keydown", (event) => { 
-                if (event.key === "Escape") {
-                    instance.close();
-                    condition = "deactive";
-                }
-            });
-        };
+`); 
+    return instance.show();
     }; 
+};
 
-    
-    
 
-}
 
 
 
