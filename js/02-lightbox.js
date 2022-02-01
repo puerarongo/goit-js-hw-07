@@ -7,37 +7,25 @@ const galleryEl = document.querySelector(".gallery");
 
 // * Stage 1.1
 
-const galleryInnerEl = galleryItems.map(({ preview, original, descript }) => {
-    return `<div class="gallery__item">
-  <a class="gallery__link" href=${original}">
-    <img
-      class="gallery__image"
-      src="${preview}"
-      data-source="${original}"
-      alt="${descript}"
-    />
-  </a>
-</div>`
-    
+const galleryInnerEl = galleryItems.map(({ preview, original, description }) => {
+    return `<li><a class="gallery__item" href=${original}>
+  <img class="gallery__image" src=${preview} alt="${description}" />
+</a></li>`  
 }).join("");
 
 // * Stage 1.2
 
 galleryEl.insertAdjacentHTML("beforeend", galleryInnerEl);
 
+const a = galleryEl.querySelectorAll(".gallery__link")
+console.log(a)
 
 
 // todo Stage 2
 
-galleryEl.addEventListener("click", selectPicture);
-
-function selectPicture(event) {
-    event.preventDefault();
-
-    if (event.target.nodeName === "IMG") {
-        var lightbox = new SimpleLightbox(event.target);
-        console.log(event.target)
-        lightbox.open()
-    };
+   const lightbox = new SimpleLightbox(".gallery a", {
+      captionsData: 'alt',
+      captionDelay: 250,
+      captionPosition: 'bottom',
+    });
     
-};

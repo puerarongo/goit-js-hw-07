@@ -7,14 +7,14 @@ const galleryEl = document.querySelector(".gallery")
 
 // * Stage 1.1
 
-const galleryInnerEl = galleryItems.map(({ preview, original, descript }) => {
+const galleryInnerEl = galleryItems.map(({ preview, original, description }) => {
     return `<div class="gallery__item">
   <a class="gallery__link" href=${original}">
     <img
       class="gallery__image"
       src="${preview}"
       data-source="${original}"
-      alt="${descript}"
+      alt="${description}"
     />
   </a>
 </div>`
@@ -27,20 +27,44 @@ galleryEl.insertAdjacentHTML("beforeend", galleryInnerEl);
 
 // todo Stage 2
 
+
 galleryEl.addEventListener("click", selectPicture);
+
+
+const instance = basicLightbox.create(`<img class="picture__lightbox">`,
+  {
+    onShow: (condition) => {
+      galleryEl.addEventListener("keydown", keyboardEvent)
+    }
+  },
+  {
+    onClose: (condition) => {
+      galleryEl.removeEventListener("keydown", keyboardEvent)
+    }
+  }
+);
+
 
 function selectPicture(event) {
     event.preventDefault();
 
-    basicLightbox
+  if (event.target.nodeName === "IMG") {
+    instance.element().querySelector(".picture__lightbox")
+      .setAttribute("src", `${event.target.dataset.source}`)
 
-    if (event.target.nodeName === "IMG") {
-        const instance = basicLightbox.create(`
-    <img src="${event.target.dataset.source}">
-`); 
-    return instance.show();
-    }; 
-};
+    instance.show()
+  };
+}; 
+
+function keyboardEvent(event) {
+  if (event.key === "Escape") {
+    instance.close()
+    console.log("!")
+  }
+}
+
+
+
 
 
 
