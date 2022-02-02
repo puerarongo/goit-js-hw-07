@@ -34,12 +34,12 @@ galleryEl.addEventListener("click", selectPicture);
 const instance = basicLightbox.create(`<img class="picture__lightbox">`,
   {
     onShow: (condition) => {
-      galleryEl.addEventListener("keydown", keyboardEvent)
+      window.addEventListener("keydown", keyboardEvent)
     }
   },
   {
     onClose: (condition) => {
-      galleryEl.removeEventListener("keydown", keyboardEvent)
+      window.removeEventListener("keydown", keyboardEvent)
     }
   }
 );
